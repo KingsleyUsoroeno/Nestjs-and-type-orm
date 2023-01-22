@@ -9,4 +9,8 @@ export class BankerService {
     public async createBanker(bankerDto: CreateBankerDto): Promise<any> {
         return this.bankersRepository.createBanker(bankerDto);
     }
+
+    public async attachBankerToClient(bankerId: number, clientId: number): Promise<any> {
+        return this.bankersRepository.attachBankerToClient(bankerId, clientId);
+    }
 }

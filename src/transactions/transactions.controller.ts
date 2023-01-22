@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
+import { TransactionEntity } from './entities/transaction.entity';
+import { GetTransactionByClientIdResponse } from './response/get-transactions-by-clientId-response';
 
 @Controller('transactions')
 export class TransactionsController {
@@ -9,15 +11,22 @@ export class TransactionsController {
 
   @Post("/create/:clientId")
   public async createTransaction(
-    @Param("clientId") clientId: number,
+    @Param("clientId", new ParseIntPipe()) clientId: number,
     @Body() createTransactionDto: CreateTransactionDto): Promise<any> {
     console.log("createTransactionDto is", JSON.stringify(createTransactionDto));
     return this.transactionsService.createTransaction(clientId, createTransactionDto);
   }
 
   @Get()
-  findAll() {
+  public async findAll(): Promise<TransactionEntity[]> {
     return this.transactionsService.findAll();
+  }
+
+  @Get('/:clientId')
+  public async getAllClientTransactions(
+    @Param('clientId', new ParseIntPipe()) clientId: number
+  ): Promise<TransactionEntity[]> {
+    return this.transactionsService.findTransactionsByClientId(clientId);
   }
 
   @Get(':id')

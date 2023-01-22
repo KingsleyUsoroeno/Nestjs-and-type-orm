@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { BankerEntity } from "../entities/banker.entity";
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -19,8 +19,21 @@ export class BankersRepository {
     }
 
     public async attachBankerToClient(bankerId: number, clientId: number): Promise<any> {
-        const client = this.clientsRepository.findClientById(clientId);
+
+        const client = await this.clientsRepository.findClientById(clientId);
+
+        const banker = await this.bankerRepository.findOne(bankerId);
+
+        if (!banker) {
+            throw new NotFoundException('banker with that id does not exist');
+        }
+
+        banker.clients = [
+            client
+        ];
+
+        await this.bankerRepository.save(banker);
+
+        return { "message": "banker successfully connected to clients" };
     }
-
-
 }

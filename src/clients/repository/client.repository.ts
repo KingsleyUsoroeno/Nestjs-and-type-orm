@@ -26,4 +26,15 @@ export class ClientRepository {
         return clientEntity;
     }
 
+    public async deleteClient(clientId: number): Promise<any> {
+        await this.findClientById(clientId);
+        return await this.clientRepository.delete(clientId);
+    }
+
+    public async findAll(): Promise<ClientEntity[]> {
+        return this.clientRepository
+            .createQueryBuilder('clients')
+            .getMany()
+    }
+
 }

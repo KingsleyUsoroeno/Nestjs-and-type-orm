@@ -16,6 +16,7 @@ export class BankerController {
         @Param('clientId') clientId: number,
         @Param('bankerId') bankerId: number,
     ): Promise<any> {
-
+        console.log('clientId is', clientId, 'bankerId is', bankerId);
+        return this.bankersService.attachBankerToClient(bankerId, clientId);
     }
 }

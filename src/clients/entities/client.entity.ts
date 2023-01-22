@@ -6,7 +6,7 @@ import { BankerEntity } from '../../banker/entities/banker.entity';
 export class ClientEntity {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    clientId: number;
 
     @Column()
     firstName: string;
@@ -34,8 +34,5 @@ export class ClientEntity {
 
     @OneToMany(() => TransactionEntity, (transactionEntity) => transactionEntity.client)
     transactions: TransactionEntity[];
-
-    @ManyToMany(() => BankerEntity)
-    bankers: BankerEntity[]
 }
 

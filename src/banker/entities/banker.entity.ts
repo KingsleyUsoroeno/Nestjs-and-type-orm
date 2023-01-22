@@ -1,11 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, JoinTable } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, JoinTable, ManyToMany } from 'typeorm';
 import { ClientEntity } from '../../clients/entities/client.entity';
-
 
 @Entity("bankers")
 export class BankerEntity {
     @PrimaryGeneratedColumn()
-    id: number;
+    bankerId: number;
 
     @Column()
     firstName: string;
@@ -25,16 +24,18 @@ export class BankerEntity {
     @UpdateDateColumn()
     updatedAt: Date;
 
+
+    @ManyToMany(() => ClientEntity)
     @JoinTable({
         name: "bankers_clients",
         joinColumn: {
             name: "bankerId",
-            referencedColumnName: "id"
+            referencedColumnName: "bankerId"
         },
         inverseJoinColumn: {
             name: "clientId",
-            referencedColumnName: "id"
+            referencedColumnName: "clientId"
         }
     })
-    client: ClientEntity[]
+    clients: ClientEntity[]
 }

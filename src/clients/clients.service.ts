@@ -14,4 +14,12 @@ export class ClientsService {
     public async getClientById(clientId: number): Promise<ClientEntity> {
         return this.clientRepository.findClientById(clientId);
     }
+
+    public async deleteById(clientId: number): Promise<any> {
+        return this.clientRepository.deleteClient(clientId);
+    }
+
+    public async getAllClients(): Promise<ClientEntity[]> {
+        return this.clientRepository.findAll();
+    }
 }

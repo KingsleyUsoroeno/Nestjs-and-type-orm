@@ -10,7 +10,7 @@ export enum TransactionType {
 export class TransactionEntity {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    transactionId: number;
 
     @Column({ type: 'enum', enum: TransactionType })
     transactionType: string;
@@ -24,7 +24,8 @@ export class TransactionEntity {
     @UpdateDateColumn()
     updatedAt: Date;
 
-    @ManyToOne(() => ClientEntity, (clientEntity) => clientEntity.transactions)
+    // CASCADE will delete this transaction when the client is also deleted
+    @ManyToOne(() => ClientEntity, (clientEntity) => clientEntity.transactions, { onDelete: "CASCADE" })
     // clientId is a created column that holds the reference to the client that has this transaction
     @JoinColumn({ name: "clientId" })
     client: ClientEntity;

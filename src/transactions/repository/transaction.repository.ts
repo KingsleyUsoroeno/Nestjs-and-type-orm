@@ -36,4 +36,23 @@ export class TransactionRepository {
         await this.transactionRepository.save(transaction);
         return transaction;
     }
+
+    public async getAllTransactionsByClientId(clientId: number): Promise<TransactionEntity[]> {
+        return this.transactionRepository.createQueryBuilder('transactions')
+            .leftJoinAndSelect("transactions.client", "clientEntity")
+            .select(['transactions.transactionId, transactions.transactionType, transactions.amount'])
+            .where("transactions.clientId = :clientId", { clientId: clientId })
+            .getRawMany();
+
+        // return this.transactionRepository.query(`
+        //     SELECT * from clients
+        //     RIGHT outer JOIN transactions
+        //     ON clients.clientId = transactions.clientId;
+        //     `);
+    }
+
+    public async findAll(): Promise<TransactionEntity[]> {
+        return this.transactionRepository.createQueryBuilder('transactions')
+            .getMany();
+    }
 }

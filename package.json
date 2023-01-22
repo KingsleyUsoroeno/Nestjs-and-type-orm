@@ -22,15 +22,17 @@
     "migration:generate": "npm run build && npm run typeorm migration:generate -- -n",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/ormconfig.ts",
     "typeorm:generate": "npm run typeorm migration:create -- -n",
-    "typeorm:migrate": "npm run build && npm run typeorm migration:run",
+    "typeorm:migrate": "npm run typeorm migration:run",
     "typeorm:migration:rollback": "npm run typeorm migration:revert"
   },
   "dependencies": {
+    "@nestjs/class-transformer": "^0.4.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^9.0.1",
+    "class-transformer": "^0.5.1",
     "mysql2": "^2.3.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
